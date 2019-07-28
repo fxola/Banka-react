@@ -3,17 +3,16 @@
   padding: 0;
 }
 
-/* @font-face {
+@font-face {
   font-family: 'sofiapro-light';
-  src: url('./font/sofiapro-light-webfont.woff2') format('woff2'),
-    url('./font/sofiapro-light-webfont.woff') format('woff');
+  src: url('/src/assets/font/sofiapro-light-webfont.woff2') format('woff2'),
+    url('/src/assets/font/sofiapro-light-webfont.woff') format('woff');
   font-weight: normal;
   font-style: italic;
-} */
+}
 
 body {
   font-family: 'sofiapro-light', sans-serif;
-  /* letter-spacing: -1px; */
 }
 
 /* for custom scrollbar for webkit browser*/
@@ -1060,7 +1059,7 @@ figure {
 
 #hero::after {
   content: '';
-  /* background: url("../img/savings.svg"); */
+  background: url('../src/assets/savings.svg');
   background-size: 100% 100%;
   background-color: #dfe0e2;
   background-repeat: no-repeat;
@@ -1269,7 +1268,7 @@ figure {
 
 a {
   color: inherit;
-  outliƒne: none;
+  outline: none;
   text-decoration: none;
 }
 
