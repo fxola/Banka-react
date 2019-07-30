@@ -1059,7 +1059,7 @@ figure {
 
 #hero::after {
   content: '';
-  background: url('../src/assets/savings.svg');
+  background: url('../savings.svg');
   background-size: 100% 100%;
   background-color: #dfe0e2;
   background-repeat: no-repeat;

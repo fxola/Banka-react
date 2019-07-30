@@ -38,13 +38,19 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/register": "^7.5.5",
     "proptypes": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.12.5",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
+    "react-toastify": "^5.3.2",
     "redux": "^4.0.4",
+    "redux-immutable-state-invariant": "^2.1.0",
+    "redux-thunk": "^2.3.0",
     "svg-url-loader": "^3.0.0",
     "url-loader": "^2.1.0"
   },
