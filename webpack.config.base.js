@@ -1,8 +1,9 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['@babel/polyfill', './src/index.js'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -19,8 +20,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-        exclude: /node_modules/
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.svg$/,
@@ -41,6 +41,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.BASE_URL': JSON.stringify(
+        'https://bank-a.herokuapp.com/api/v1'
+      )
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })
