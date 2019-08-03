@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HamburgerIcon from '../components/HamburgerIcon';
+import Footer from '../components/Footer';
 import { signUpUserRequest } from '../actions/signUpAction';
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 
-class Signup extends Component {
+export class Signup extends Component {
   state = {
     users: {},
     isloading: false
@@ -26,12 +27,8 @@ class Signup extends Component {
       password: this.passowordRef.current.value,
       confirmPassword: this.confirmPasswordRef.current.value
     };
-    try {
-      await this.props.dispatch(signUpUserRequest(user));
-      this.setState({ isloading: false });
-    } catch (error) {
-      throw error;
-    }
+    await this.props.dispatch(signUpUserRequest(user, this.props.history));
+    this.setState({ isloading: false });
   };
 
   render() {
@@ -117,7 +114,7 @@ class Signup extends Component {
             </form>
           </section>
         </main>
-        <footer>Hand-crafted By Afolabi &#x00A9; 2019</footer>
+        <Footer />
       </section>
     );
   }
@@ -127,7 +124,7 @@ Signup.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     users: state.users
   };
