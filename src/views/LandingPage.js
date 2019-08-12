@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import HamburgerIcon from '../components/HamburgerIcon';
+import Footer from '../components/Footer';
 
 const LandingPage = () => {
   return (
@@ -25,7 +26,6 @@ const LandingPage = () => {
           </article>
         </nav>
         <section id="hero">
-          
           <h1>Want To Experience 21st Century Banking ?</h1>
           <Link to="/signin">
             <button>Let's Go</button>
@@ -33,7 +33,7 @@ const LandingPage = () => {
         </section>
       </header>
       <main id="landing-page-main" />
-      <footer>Hand-crafted By Afolabi &#x00A9; 2019</footer>
+      <Footer />
     </section>
   );
 };

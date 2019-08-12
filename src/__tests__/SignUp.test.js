@@ -1,76 +1,65 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
-import { logInUserRequest, loginUserError } from '../actions/loginAction';
+import { signUpUserRequest, signUpUserError } from '../actions/signUpAction';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { Signin, mapDispatchToProps } from '../views/Signin';
-import { LOG_IN_USER, LOG_IN_USER_ERROR } from '../actions/actionTypes';
+import { Signup, mapStateToProps } from '../views/Signup';
+import { SIGN_UP_USER_ERROR, SIGN_UP_USER } from '../actions/actionTypes';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
-const renderSignInPage = args => {
+const renderSignUpPage = args => {
   const defaultProps = {
-    LoginUserRequest: jest.fn(),
     isLoading: false,
     history: {},
-    match: {}
+    users: {},
+    match: {},
+    dispatch: jest.fn()
   };
   const props = { ...defaultProps, ...args };
   return mount(
     <BrowserRouter>
-      <Signin {...props} />
+      <Signup {...props} />
     </BrowserRouter>
   );
 };
 
-describe('Sign in Components Tests', () => {
-  it('renders Sign In template', () => {
-    const wrapper = renderSignInPage();
+describe('Sign up Components Tests', () => {
+  it('renders Sign Up template', () => {
+    const wrapper = renderSignUpPage();
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.find('form').length).toBe(1);
   });
 
-  it(`Simulates an onchange event on form email input`, () => {
-    const wrapper = renderSignInPage();
-    wrapper
-      .find('input')
-      .at(0)
-      .simulate('change', { currentTarget: { value: 'fola@gmail.com' } });
-  });
-
-  it(`Simulates an onchange event on form password input`, () => {
-    const wrapper = renderSignInPage();
-    wrapper
-      .find('input')
-      .at(1)
-      .simulate('change', { currentTarget: { value: 'password' } });
-  });
   it('Simulates a form submit event', () => {
-    const wrapper = renderSignInPage();
+    const wrapper = renderSignUpPage();
     wrapper.find('form').simulate('submit');
   });
 
-  it('should dispatch login request action', () => {
-    const dispatch = jest.fn();
-    mapDispatchToProps(dispatch).LoginUserRequest();
+  it('should show initial state', () => {
+    const initialState = {
+      users: {}
+    };
+    expect(mapStateToProps(initialState).users).toEqual({});
   });
 });
 
-describe('Sign In Actions Tests', () => {
+describe('Sign Up Actions Tests', () => {
   afterEach(() => {
     store.clearActions();
     global.fetch.mockClear();
     delete global.fetch;
   });
   const store = mockStore();
-  const userCredentials = {
+  const userDetails = {
+    firstName: 'some',
+    lastName: 'user',
     email: 'someuser@gmail.com',
     password: 'randompassword'
   };
-
-  it('Should Trigger the LOG_IN_USER dispatch function', async () => {
+  it('Should Trigger the SIGN_UP_USER dispatch function', async () => {
     const mockData = {
       success: true,
       data: {
@@ -86,15 +75,15 @@ describe('Sign In Actions Tests', () => {
       json: () => mockJsonPromise
     });
     global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-    const expectedActions = [{ type: LOG_IN_USER, payload: mockData.data }];
+    const expectedActions = [{ type: SIGN_UP_USER, payload: mockData.data }];
     const historyObject = {
       push: jest.fn()
     };
-    await store.dispatch(logInUserRequest(userCredentials, historyObject));
+    await store.dispatch(signUpUserRequest(userDetails, historyObject));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
-  it('Should Trigger the LOG_IN_USER_ERROR dispatch function on network error', async () => {
+  it('Should Trigger the SIGN_UP_USER_ERROR dispatch function on network error', async () => {
     const mockData = {
       success: false,
       error: 'Network Error',
@@ -105,37 +94,34 @@ describe('Sign In Actions Tests', () => {
       json: () => mockJsonPromise
     });
     global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-    try {
-      await fetch();
-    } catch (error) {}
     const historyObject = {
       push: jest.fn()
     };
     const expectedActions = [
-      { type: LOG_IN_USER_ERROR, payload: mockData.message }
+      { type: SIGN_UP_USER_ERROR, payload: mockData.message }
     ];
-    await store.dispatch(logInUserRequest(userCredentials, historyObject));
+    await store.dispatch(signUpUserRequest(userDetails, historyObject));
     expect(store.getActions()).toEqual(expectedActions);
   });
 
   it('Should Trigger the LOG_IN_USER_ERROR dispatch function on API error', async () => {
     const mockData = {
       success: false,
-      error: 'Invalid Credentials Provided'
+      status: 409,
+      message: 'Email Already exists'
     };
     const mockJsonPromise = Promise.resolve(mockData);
     const mockFetchPromise = Promise.resolve({
       json: () => mockJsonPromise
     });
-
     global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
     const expectedActions = [
-      { type: LOG_IN_USER_ERROR, payload: mockData.error }
+      { type: SIGN_UP_USER_ERROR, payload: mockData.message }
     ];
     const historyObject = {
       push: jest.fn()
     };
-    await store.dispatch(logInUserRequest(userCredentials, historyObject));
+    await store.dispatch(signUpUserRequest(userDetails, historyObject));
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
