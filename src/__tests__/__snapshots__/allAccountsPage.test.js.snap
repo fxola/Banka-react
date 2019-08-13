@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accounts Components Tests renders Accounts template 1`] = `ReactWrapper {}`;

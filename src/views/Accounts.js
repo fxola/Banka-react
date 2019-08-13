@@ -3,57 +3,61 @@ import HamburgerIcon from '../components/HamburgerIcon';
 import AccountCard from '../components/AccountCard';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
-import makeRequest from '../services/apiRequest';
+import { connect } from 'react-redux';
+import { fetchAccountsRequest } from '../actions/fetchAccountsAction';
+import { toast } from 'react-toastify';
 
-class Accounts extends Component {
-  state = {
-    userAccounts: [],
-    isLoading: true
-  };
-
+export class Accounts extends Component {
   handleView = () => {};
   handleDelete = () => {};
 
   async componentDidMount() {
-    const token = localStorage.getItem('token');
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    };
-    const response = await makeRequest('/accounts', options);
-    this.setState({ userAccounts: response.data, isLoading: false });
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.props.fetchAccountsRequest(user.token);
   }
-  render() {
-    const accounts = this.state.userAccounts.map(account => {
-      const result = (
-        <AccountCard
-          key={account.ownerEmail}
-          fullName={account.fullName}
-          ownerEmail={account.ownerEmail}
-          status={account.status}
-          balance={account.balance}
-          accountNumber={account.accountNumber}
-          handleDelete={this.handleDelete}
-          handleView={this.handleView}
-        />
-      );
-      return result;
-    });
 
-    const template = this.state.isLoading ? <mark>Loading...</mark> : accounts;
+  render() {
+    const accounts = this.props.userAccounts.user ? (
+      this.props.userAccounts.user.map(account => {
+        const result = (
+          <AccountCard
+            key={account.ownerEmail}
+            fullName={account.fullName}
+            ownerEmail={account.ownerEmail}
+            status={account.status}
+            balance={account.balance}
+            accountNumber={account.accountNumber}
+            handleDelete={this.handleDelete}
+            handleView={this.handleView}
+          />
+        );
+        return result;
+      })
+    ) : (
+      <mark>Loading...</mark>
+    );
+
+    let error;
+    if (this.props.userAccounts.error) {
+      error =
+        this.props.userAccounts.error === 'Failed to fetch' &&
+        'Something Went Wrong. Please Check Your Connection and Try Again';
+      toast.error(error);
+    }
+
+    const template = this.props.userAccounts.error ? (
+      <mark>{error}</mark>
+    ) : (
+      accounts
+    );
+
     return (
       <>
         <section>
           <header>
             <nav>
               <HamburgerIcon />
-              <article className="logo">
-                {' '}
-                <Link to="/">Banka</Link>
-              </article>
+              <article className="logo"> Banka</article>
               <article className="menu">
                 <ul>
                   <Link to="#">
@@ -76,4 +80,21 @@ class Accounts extends Component {
   }
 }
 
-export default Accounts;
+export const mapDispatchToProps = dispatch => {
+  return {
+    fetchAccountsRequest: async token => {
+      return dispatch(await fetchAccountsRequest(token));
+    }
+  };
+};
+
+export const mapStateToProps = state => {
+  return {
+    userAccounts: state.userAccounts
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Accounts);

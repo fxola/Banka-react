@@ -29,7 +29,7 @@ export const logInUserRequest = (user, history) => {
 
       if (response.success) {
         toast.success('Log in Successful');
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
         setTimeout(() => {
           switch (response.data.type) {
             case 'client':
