@@ -32,6 +32,7 @@ export const signUpUserRequest = (user, history) => {
       if (response.success) {
         toast.success(response.message);
         history.push('/profile');
+        localStorage.setItem('user', JSON.stringify(response.data));
         dispatch(signUpUser(response.data));
       }
     } catch (error) {
