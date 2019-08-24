@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
 import {
-  fetchAccountsRequest,
-  fetchAccountDetailsRequest
+  fetchAccountDetailsRequest,
+  makeTransactionRequest
 } from '../actions/fetchAccountsAction';
 import { toast } from 'react-toastify';
 import AccountDetailsCard from '../components/AccountDetailsCard';
@@ -14,7 +14,9 @@ import Modal from 'react-responsive-modal';
 
 export class SingleAccount extends Component {
   state = {
-    open: false
+    open: false,
+    type: '',
+    amount: ''
   };
 
   async componentDidMount() {
@@ -30,24 +32,56 @@ export class SingleAccount extends Component {
     this.setState({ open: false });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
+
+  handleSubmit = async e => {
+    e.preventDefault();
+    const { accountNumber } = this.props.match.params;
+    if (this.state.type === '') {
+      toast.error('Please make a selection');
+      return;
+    }
+
+    await this.props.makeTransactionRequest(this.state, accountNumber);
+    this.onCloseModal();
+  };
+
+  componentDidUpdate() {
+    const { singleAccount } = this.props.userAccounts;
+    if (
+      singleAccount &&
+      singleAccount.transaction &&
+      singleAccount.transaction.message
+    ) {
+      singleAccount.transaction.status
+        ? toast.success(singleAccount.transaction.message)
+        : toast.error(singleAccount.transaction.message);
+    }
+  }
 
   render() {
     const { open } = this.state;
+
     let template = <mark>Loading...</mark>;
     if (this.props.userAccounts.singleAccount) {
       const {
         fullName,
         balance,
+        transaction,
         status,
         accountNumber
       } = this.props.userAccounts.singleAccount;
+      let accountBalance = balance;
+      if (transaction && transaction.data) {
+        accountBalance = transaction.data.accountBalance;
+      }
+
       template = (
         <AccountDetailsCard
           fullName={fullName}
-          balance={balance}
+          balance={accountBalance}
           status={status}
           accountNumber={accountNumber}
           handleTransaction={this.onOpenModal}
@@ -91,17 +125,28 @@ export class SingleAccount extends Component {
                     <form onSubmit={this.handleSubmit} id="transaction-form">
                       <article className="fields">
                         <select
+                          name="type"
+                          onChange={this.handleChange}
                           required
                           id="transaction-type"
-                          placeholder="Select Transaction Type (credit or debit)"
+                          defaultValue="Select Transaction Type (credit or debit)"
                         >
+                          <option
+                            disabled
+                            value="Select Transaction Type (credit or debit)"
+                          >
+                            Select Transaction Type (credit or debit)
+                          </option>
                           <option value="credit">credit</option>
                           <option value="debit">debit</option>
                         </select>
                         <input
                           type="number"
                           id="amount"
+                          name="amount"
+                          onChange={this.handleChange}
                           placeholder="Transaction Amount"
+                          required
                         />
                       </article>
                       <button className="confirm" id="confirm">
@@ -124,6 +169,9 @@ export const mapDispatchToProps = dispatch => {
   return {
     fetchAccountDetailsRequest: async token => {
       return dispatch(await fetchAccountDetailsRequest(token));
+    },
+    makeTransactionRequest: async (payload, accountNumber) => {
+      return dispatch(await makeTransactionRequest(payload, accountNumber));
     }
   };
 };

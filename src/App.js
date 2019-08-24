@@ -22,7 +22,7 @@ class App extends Component {
       <Provider store={store}>
         <Fragment>
           <Router>
-            <ToastContainer />
+            <ToastContainer autoClose={3000} />
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route path="/signup" exact component={Signup} />
