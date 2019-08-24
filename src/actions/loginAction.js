@@ -31,6 +31,7 @@ export const logInUserRequest = (user, history) => {
         toast.success('Log in Successful');
         localStorage.setItem('user', JSON.stringify(response.data));
         setTimeout(() => {
+          /* istanbul ignore next */
           switch (response.data.type) {
             case 'client':
               history.push('/transactions');

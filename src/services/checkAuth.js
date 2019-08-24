@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import decode from 'jwt-decode';
 export const checkAuth = () => {
   const user = JSON.parse(localStorage.getItem('user'));

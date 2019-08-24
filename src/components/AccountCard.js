@@ -35,11 +35,15 @@ const AccountCard = ({
         </article>
         <article className="buttons">
           <a>
-            <button id="view-account" onClick={handleView}>
+            <button id="view-account" onClick={() => handleView(accountNumber)}>
               View Account
             </button>
           </a>
-          <button id="delete-trigger" onClick={handleDelete} className="cancel">
+          <button
+            id="delete-trigger"
+            onClick={() => handleDelete(accountNumber)}
+            className="cancel"
+          >
             Delete Account
           </button>
         </article>
