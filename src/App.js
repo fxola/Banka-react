@@ -12,20 +12,11 @@ import Accounts from './views/Accounts';
 import Transactions from './views/Transactions';
 import Profile from './views/Profile';
 import { PrivateRoute } from './components/PrivateRoute';
+import SingleAccount from './views/SingleAccount';
 
 const store = setupStore();
 
 class App extends Component {
-  state = {
-    authenticatedUser: null
-  };
-
-  componentDidMount() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      this.setState({ authenticatedUser: user });
-    }
-  }
   render() {
     return (
       <Provider store={store}>
@@ -37,7 +28,12 @@ class App extends Component {
               <Route path="/signup" exact component={Signup} />
               <Route path="/signin" exact component={Signin} />
               <PrivateRoute path="/accounts" exact component={Accounts} />
-              <PrivateRoute path="/transactions" exact component={Transactions} />
+              <PrivateRoute
+                path="/accounts/:accountNumber"
+                exact
+                component={SingleAccount}
+              />
+              <Route path="/transactions" exact component={Transactions} />
               <PrivateRoute path="/profile" exact component={Profile} />
             </Switch>
           </Router>

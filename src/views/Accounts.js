@@ -8,7 +8,9 @@ import { fetchAccountsRequest } from '../actions/fetchAccountsAction';
 import { toast } from 'react-toastify';
 
 export class Accounts extends Component {
-  handleView = () => {};
+  handleView = accountNumber => {
+    this.props.history.push(`accounts/${accountNumber}`);
+  };
   handleDelete = () => {};
 
   async componentDidMount() {
