@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HamburgerIcon from '../components/HamburgerIcon';
+import TransactionModal from '../components/TransactionModal';
 
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -7,10 +8,11 @@ import { connect } from 'react-redux';
 import {
   fetchAccountDetailsRequest,
   makeTransactionRequest
-} from '../actions/fetchAccountsAction';
+} from '../actions/staffActivityAction';
 import { toast } from 'react-toastify';
 import AccountDetailsCard from '../components/AccountDetailsCard';
 import Modal from 'react-responsive-modal';
+import Navigation from '../components/Navigation';
 
 export class SingleAccount extends Component {
   state = {
@@ -92,69 +94,15 @@ export class SingleAccount extends Component {
     return (
       <>
         <section>
-          <header>
-            <nav>
-              <HamburgerIcon />
-              <article className="logo"> Banka</article>
-              <article className="menu">
-                <ul>
-                  <Link to="/accounts">
-                    <li>Accounts</li>
-                  </Link>
-                  <Link to="/">
-                    <li>Log Out</li>
-                  </Link>
-                </ul>
-              </article>
-            </nav>
-          </header>
+          <Navigation />
           <main id="accounts-main">
             <section id="accounts-section">
               {template}
-              <Modal
-                open={open}
-                onClose={this.onCloseModal}
-                center
-                className="tx-modal"
-              >
-                <article id="transaction-modal">
-                  <article
-                    className="transaction-modal-content"
-                    id="transaction-modal"
-                  >
-                    <form onSubmit={this.handleSubmit} id="transaction-form">
-                      <article className="fields">
-                        <select
-                          name="type"
-                          onChange={this.handleChange}
-                          required
-                          id="transaction-type"
-                          defaultValue="Select Transaction Type (credit or debit)"
-                        >
-                          <option
-                            disabled
-                            value="Select Transaction Type (credit or debit)"
-                          >
-                            Select Transaction Type (credit or debit)
-                          </option>
-                          <option value="credit">credit</option>
-                          <option value="debit">debit</option>
-                        </select>
-                        <input
-                          type="number"
-                          id="amount"
-                          name="amount"
-                          onChange={this.handleChange}
-                          placeholder="Transaction Amount"
-                          required
-                        />
-                      </article>
-                      <button className="confirm" id="confirm">
-                        Make Transaction
-                      </button>
-                    </form>
-                  </article>
-                </article>
+              <Modal open={open} onClose={this.onCloseModal} center>
+                <TransactionModal
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmit}
+                />
               </Modal>
             </section>
           </main>

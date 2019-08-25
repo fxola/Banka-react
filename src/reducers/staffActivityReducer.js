@@ -1,6 +1,6 @@
 import * as types from '../actions/actionTypes';
 
-const fetchAccountsReducer = (state = {}, action) => {
+const staffActivityReducer = (state = {}, action) => {
   switch (action.type) {
     case types.FETCH_ALL_ACCOUNTS:
       return { ...state, user: action.payload };
@@ -40,4 +40,4 @@ const fetchAccountsReducer = (state = {}, action) => {
   }
 };
 
-export default fetchAccountsReducer;
+export default staffActivityReducer;

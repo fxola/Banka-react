@@ -4,6 +4,7 @@ import HamburgerIcon from '../components/HamburgerIcon';
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
 import { logInUserRequest } from '../actions/loginAction';
+import Navigation from '../components/Navigation';
 
 export class Signin extends Component {
   state = {
@@ -28,27 +29,7 @@ export class Signin extends Component {
     const buttonText = this.state.isLoading ? 'Loading...' : 'Log in';
     return (
       <section>
-        <header>
-          <nav>
-            <HamburgerIcon />
-
-            <article className="logo">
-              {' '}
-              <Link to="/">Banka</Link>
-            </article>
-
-            <article className="menu">
-              <ul>
-                <Link to="/signin">
-                  <li>Log In</li>
-                </Link>
-                <Link to="/signup">
-                  <li>Register</li>
-                </Link>
-              </ul>
-            </article>
-          </nav>
-        </header>
+        <Navigation />
         <main id="signin-main">
           <section id="signin-section">
             <form id="signin-form" onSubmit={this.handleSubmit}>

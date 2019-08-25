@@ -4,8 +4,9 @@ import AccountCard from '../components/AccountCard';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { connect } from 'react-redux';
-import { fetchAccountsRequest } from '../actions/fetchAccountsAction';
+import { fetchAccountsRequest } from '../actions/staffActivityAction';
 import { toast } from 'react-toastify';
+import Navigation from '../components/Navigation';
 
 export class Accounts extends Component {
   handleView = accountNumber => {
@@ -56,22 +57,7 @@ export class Accounts extends Component {
     return (
       <>
         <section>
-          <header>
-            <nav>
-              <HamburgerIcon />
-              <article className="logo"> Banka</article>
-              <article className="menu">
-                <ul>
-                  <Link to="#">
-                    <li>Accounts</li>
-                  </Link>
-                  <Link to="/">
-                    <li>Log Out</li>
-                  </Link>
-                </ul>
-              </article>
-            </nav>
-          </header>
+          <Navigation />
           <main id="admin-dashboard-main">
             <section id="admin-dashboard-section">{template}</section>
           </main>

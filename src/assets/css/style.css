@@ -12,7 +12,9 @@
 }
 
 body {
-  font-family: 'sofiapro-light', sans-serif;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  font-style: normal;
 }
 
 /* for custom scrollbar for webkit browser*/
@@ -459,6 +461,7 @@ td {
 #photo p {
   font-size: 1.8em;
   text-align: center;
+  padding-bottom: 1.6em;
 }
 #photo {
   border: 1px solid white;
@@ -512,11 +515,12 @@ td {
   color: teal;
   border: 2px solid teal;
   cursor: pointer;
-  width: 20%;
+  width: auto;
   border-radius: 4px;
   font-weight: bolder;
   outline: none;
   transition: 0.8s;
+  font-size: 1em;
 }
 
 #account button:hover {
@@ -528,37 +532,9 @@ td {
   text-decoration: none;
 }
 
-#account-modal {
-  background-color: rgba(0, 0, 0, 0.8);
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  opacity: 0;
-  visibility: hidden;
-  transition: ease-in-out 1s;
-}
-
-#account-modal:target {
-  opacity: 1;
-  visibility: visible;
-}
-
-#account-modal:target .account-modal-content {
-  opacity: 1;
-  visibility: visible;
-}
-
 #account-form {
-  position: relative;
-  margin-top: 5em;
-  left: 50%;
-  transform: translate(-50%, 0);
   height: auto;
   width: 50vw;
-  background: #f4f7f8;
   padding: 1em;
   text-align: center;
 }
@@ -584,7 +560,7 @@ td {
 .fields input {
   display: block;
   padding: 1em;
-  width: 70%;
+  width: 100%;
   margin: 5px auto;
   border: none;
   outline: none;
@@ -593,6 +569,9 @@ td {
   background: rgba(0, 0, 0, 0.1);
 }
 
+#account-form select {
+  width: 70%;
+}
 .cancel {
   color: red !important;
   background: rgba(248, 146, 146, 0.4) !important;

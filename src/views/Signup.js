@@ -5,6 +5,7 @@ import HamburgerIcon from '../components/HamburgerIcon';
 import Footer from '../components/Footer';
 import { signUpUserRequest } from '../actions/signUpAction';
 import PropTypes from 'prop-types';
+import Navigation from '../components/Navigation';
 
 export class Signup extends Component {
   state = {
@@ -35,26 +36,7 @@ export class Signup extends Component {
     const buttonText = this.state.isloading ? 'Loading...' : 'Register';
     return (
       <section>
-        <header>
-          <nav>
-            <HamburgerIcon />
-            <article className="logo">
-              {' '}
-              <Link to="/">Banka</Link>
-            </article>
-
-            <article className="menu">
-              <ul>
-                <Link to="/signin">
-                  <li>Log In</li>
-                </Link>
-                <Link to="/signup">
-                  <li>Register</li>
-                </Link>
-              </ul>
-            </article>
-          </nav>
-        </header>
+        <Navigation />
         <main id="signup-main">
           <section id="signup-section">
             <form id="signup-form" onSubmit={this.createNewuser}>

@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import makeRequest from '../services/apiRequest';
-import { checkAuth } from '../services/checkAuth';
+
 export const fetchAccounts = userAccounts => {
   return { type: types.FETCH_ALL_ACCOUNTS, payload: userAccounts };
 };
@@ -20,9 +20,11 @@ export const fetchAccountDetailsStart = () => {
 export const makeTransaction = payload => {
   return { type: types.MAKE_TRANSACTION, payload };
 };
+
 export const cleanUpTransaction = () => {
   return { type: types.CLEAN_UP_TRANSACTION };
 };
+
 export const makeTransactionError = payload => {
   return { type: types.MAKE_TRANSACTION_ERROR, payload };
 };
@@ -84,7 +86,6 @@ export const makeTransactionRequest = (payload, accountNumber) => {
         `/transactions/${accountNumber}/${payload.type}`,
         options
       );
-      console.log(response);
       if (response.status !== 201) throw response;
       dispatch(makeTransaction(response));
       dispatch(cleanUpTransaction());

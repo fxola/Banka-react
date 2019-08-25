@@ -34,7 +34,7 @@ export const logInUserRequest = (user, history) => {
           /* istanbul ignore next */
           switch (response.data.type) {
             case 'client':
-              history.push('/transactions');
+              history.push('/profile');
               break;
             case 'staff':
               history.push('/accounts');
