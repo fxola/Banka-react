@@ -27,14 +27,30 @@ class App extends Component {
               <Route exact path="/" component={LandingPage} />
               <Route path="/signup" exact component={Signup} />
               <Route path="/signin" exact component={Signin} />
-              <PrivateRoute path="/accounts" exact component={Accounts} />
+              <PrivateRoute
+                path="/accounts"
+                exact
+                component={Accounts}
+                accessLevel={1}
+              />
               <PrivateRoute
                 path="/accounts/:accountNumber"
                 exact
                 component={SingleAccount}
+                accessLevel={1}
               />
-              <Route path="/transactions" exact component={Transactions} />
-              <PrivateRoute path="/profile" exact component={Profile} />
+              <PrivateRoute
+                path="/transactions"
+                exact
+                component={Transactions}
+                accessLevel={0}
+              />
+              <PrivateRoute
+                path="/profile"
+                exact
+                component={Profile}
+                accessLevel={0}
+              />
             </Switch>
           </Router>
         </Fragment>

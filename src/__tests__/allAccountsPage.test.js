@@ -1,10 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
-import {
-  fetchAccountsRequest,
-  fetchAccountsError
-} from '../actions/fetchAccountsAction';
+import { fetchAccountsRequest } from '../actions/staffActivityAction';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {
